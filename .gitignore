@@ -45,3 +45,17 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+*.suo
+*.suo
+*.suo
+*.tmp
+/*.dll
+/*.exe
+/*.opensdf
+/*.sdf
+/*.suo
+/*.user
+/*.vcxproj.user
+PianoFromAboveConfigurator/obj
+PianoFromAboveConfigurator/bin
