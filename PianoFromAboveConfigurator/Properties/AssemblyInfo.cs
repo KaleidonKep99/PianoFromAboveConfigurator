@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("KaleidonKep99 and Brian Pantano")]
 [assembly: AssemblyProduct("PianoFromAboveConfigurator")]
-[assembly: AssemblyCopyright("Copyright KaleidonKep99 © 2013-2017")]
+[assembly: AssemblyCopyright("Copyright KaleidonKep99 © 2013")]
 [assembly: AssemblyTrademark("PianoFromAbove")]
 [assembly: AssemblyCulture("")]
 
@@ -33,6 +33,6 @@ using System.Resources;
 // È possibile specificare tutti i valori oppure impostare valori predefiniti per i numeri relativi alla revisione e alla build 
 // utilizzando l'asterisco (*) come descritto di seguito:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]
 [assembly: NeutralResourcesLanguageAttribute("en-GB")]

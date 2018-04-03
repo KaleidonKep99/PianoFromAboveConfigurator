@@ -438,23 +438,38 @@ namespace PianoFromAboveConfigurator
 
         private void NoteColor(Panel panel, int whichone)
         {
-            Color previous = new Color();
-            previous = Color.FromArgb(Convert.ToInt32(XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["R"].Value), Convert.ToInt32(XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["G"].Value), Convert.ToInt32(XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["B"].Value));
-            SelectColor.Color = previous;
-            SelectColor.FullOpen = true;
-            SelectColor.AllowFullOpen = true;
-            if (SelectColor.ShowDialog() == DialogResult.OK)
+            if (Control.ModifierKeys == Keys.Shift)
             {
-                try
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Paste the HTML color in the textbox down below.\n\n(Format: #xxxxxx)", "HTML color parser", "#FFFFFF", -1, -1);
+                if (input.Length != 0)
                 {
-                    panel.BackColor = SelectColor.Color;
-                    XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["R"].Value = SelectColor.Color.R.ToString();
-                    XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["G"].Value = SelectColor.Color.G.ToString();
-                    XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["B"].Value = SelectColor.Color.B.ToString();
+                    Color HTMLColor = System.Drawing.ColorTranslator.FromHtml(input);
+                    panel.BackColor = HTMLColor;
+                    XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["R"].Value = HTMLColor.R.ToString();
+                    XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["G"].Value = HTMLColor.G.ToString();
+                    XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["B"].Value = HTMLColor.B.ToString();
                 }
-                catch
+            }
+            else
+            {
+                Color previous = new Color();
+                previous = Color.FromArgb(Convert.ToInt32(XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["R"].Value), Convert.ToInt32(XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["G"].Value), Convert.ToInt32(XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["B"].Value));
+                SelectColor.Color = previous;
+                SelectColor.FullOpen = true;
+                SelectColor.AllowFullOpen = true;
+                if (SelectColor.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Error.");
+                    try
+                    {
+                        panel.BackColor = SelectColor.Color;
+                        XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["R"].Value = SelectColor.Color.R.ToString();
+                        XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["G"].Value = SelectColor.Color.G.ToString();
+                        XMLDoc.Colors.SelectNodes("Color")[whichone - 1].Attributes["B"].Value = SelectColor.Color.B.ToString();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Error.");
+                    }
                 }
             }
         }
@@ -549,24 +564,39 @@ namespace PianoFromAboveConfigurator
 
         private void colors_Click(object sender, EventArgs e)
         {
-            Color previous = new Color();
-            previous = Color.FromArgb(Convert.ToInt32(XMLDoc.BkgColor.Attributes["R"].Value), Convert.ToInt32(XMLDoc.BkgColor.Attributes["G"].Value), Convert.ToInt32(XMLDoc.BkgColor.Attributes["G"].Value));
-            SelectColor.Color = previous;
-            SelectColor.FullOpen = true;
-            SelectColor.AllowFullOpen = true;
-            SelectColor.AllowFullOpen = true;
-            if (SelectColor.ShowDialog() == DialogResult.OK)
+            if (Control.ModifierKeys == Keys.Shift)
             {
-                try
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Paste the HTML color in the textbox down below.\n\n(Format: #xxxxxx)", "HTML color parser", "#FFFFFF", -1, -1);
+                if (input.Length != 0)
                 {
-                    colors.BackColor = SelectColor.Color;
-                    XMLDoc.BkgColor.Attributes["R"].Value = SelectColor.Color.R.ToString();
-                    XMLDoc.BkgColor.Attributes["G"].Value = SelectColor.Color.G.ToString();
-                    XMLDoc.BkgColor.Attributes["B"].Value = SelectColor.Color.B.ToString();
+                    Color HTMLColor = System.Drawing.ColorTranslator.FromHtml(input);
+                    colors.BackColor = HTMLColor;
+                    XMLDoc.BkgColor.Attributes["R"].Value = HTMLColor.R.ToString();
+                    XMLDoc.BkgColor.Attributes["G"].Value = HTMLColor.G.ToString();
+                    XMLDoc.BkgColor.Attributes["B"].Value = HTMLColor.B.ToString();
                 }
-                catch
+            }
+            else
+            {
+                Color previous = new Color();
+                previous = Color.FromArgb(Convert.ToInt32(XMLDoc.BkgColor.Attributes["R"].Value), Convert.ToInt32(XMLDoc.BkgColor.Attributes["G"].Value), Convert.ToInt32(XMLDoc.BkgColor.Attributes["G"].Value));
+                SelectColor.Color = previous;
+                SelectColor.FullOpen = true;
+                SelectColor.AllowFullOpen = true;
+                SelectColor.AllowFullOpen = true;
+                if (SelectColor.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Error.");
+                    try
+                    {
+                        colors.BackColor = SelectColor.Color;
+                        XMLDoc.BkgColor.Attributes["R"].Value = SelectColor.Color.R.ToString();
+                        XMLDoc.BkgColor.Attributes["G"].Value = SelectColor.Color.G.ToString();
+                        XMLDoc.BkgColor.Attributes["B"].Value = SelectColor.Color.B.ToString();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Error.");
+                    }
                 }
             }
         }

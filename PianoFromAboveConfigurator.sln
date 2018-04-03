@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PianoFromAboveConfigurator", "PianoFromAboveConfigurator\PianoFromAboveConfigurator.csproj", "{840296E8-9E76-4EE6-9828-CFEB4F52800C}"
 EndProject
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{840296E8-9E76-4EE6-9828-CFEB4F52800C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{840296E8-9E76-4EE6-9828-CFEB4F52800C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840296E8-9E76-4EE6-9828-CFEB4F52800C}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{840296E8-9E76-4EE6-9828-CFEB4F52800C}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{840296E8-9E76-4EE6-9828-CFEB4F52800C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{840296E8-9E76-4EE6-9828-CFEB4F52800C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C82F9B2D-64E9-4F73-8FEB-01F306ADB4F9}
 	EndGlobalSection
 EndGlobal

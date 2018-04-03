@@ -35,7 +35,6 @@
             this.ForceSave = new System.Windows.Forms.Button();
             this.NoteSpeedValue = new System.Windows.Forms.NumericUpDown();
             this.label30 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
             this.LibraryPanel = new System.Windows.Forms.CheckBox();
             this.NoteLabels = new System.Windows.Forms.CheckBox();
             this.ShowKeyboard = new System.Windows.Forms.CheckBox();
@@ -138,7 +137,6 @@
             this.settings.Controls.Add(this.ForceSave);
             this.settings.Controls.Add(this.NoteSpeedValue);
             this.settings.Controls.Add(this.label30);
-            this.settings.Controls.Add(this.label28);
             this.settings.Controls.Add(this.LibraryPanel);
             this.settings.Controls.Add(this.NoteLabels);
             this.settings.Controls.Add(this.ShowKeyboard);
@@ -203,17 +201,6 @@
             this.label30.Size = new System.Drawing.Size(65, 13);
             this.label30.TabIndex = 19;
             this.label30.Text = "Note speed:";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.ForeColor = System.Drawing.Color.Red;
-            this.label28.Location = new System.Drawing.Point(422, 168);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(43, 13);
-            this.label28.TabIndex = 18;
-            this.label28.Text = "W.I.P.";
             // 
             // LibraryPanel
             // 
@@ -1123,7 +1110,6 @@
         private System.Windows.Forms.CheckBox ShowKeyboard;
         private System.Windows.Forms.SaveFileDialog ExportConfig;
         private System.Windows.Forms.OpenFileDialog ImportConfig;
-        private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label29;
