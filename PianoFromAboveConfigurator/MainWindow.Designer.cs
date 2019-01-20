@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.Tabs = new System.Windows.Forms.TabControl();
             this.settings = new System.Windows.Forms.TabPage();
+            this.ScanMIDIDev = new System.Windows.Forms.Button();
             this.ForceSave = new System.Windows.Forms.Button();
             this.NoteSpeedValue = new System.Windows.Forms.NumericUpDown();
             this.label30 = new System.Windows.Forms.Label();
@@ -40,7 +41,7 @@
             this.ShowKeyboard = new System.Windows.Forms.CheckBox();
             this.MIDIDevicesListIN = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.MIDIDevicesList = new System.Windows.Forms.ComboBox();
+            this.MIDIDevicesListOUT = new System.Windows.Forms.ComboBox();
             this.label24 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.SpeedUpValue = new System.Windows.Forms.NumericUpDown();
@@ -134,6 +135,7 @@
             // 
             // settings
             // 
+            this.settings.Controls.Add(this.ScanMIDIDev);
             this.settings.Controls.Add(this.ForceSave);
             this.settings.Controls.Add(this.NoteSpeedValue);
             this.settings.Controls.Add(this.label30);
@@ -142,7 +144,7 @@
             this.settings.Controls.Add(this.ShowKeyboard);
             this.settings.Controls.Add(this.MIDIDevicesListIN);
             this.settings.Controls.Add(this.label25);
-            this.settings.Controls.Add(this.MIDIDevicesList);
+            this.settings.Controls.Add(this.MIDIDevicesListOUT);
             this.settings.Controls.Add(this.label24);
             this.settings.Controls.Add(this.label22);
             this.settings.Controls.Add(this.SpeedUpValue);
@@ -162,6 +164,16 @@
             this.settings.TabIndex = 0;
             this.settings.Text = "Settings";
             this.settings.UseVisualStyleBackColor = true;
+            // 
+            // ScanMIDIDev
+            // 
+            this.ScanMIDIDev.Location = new System.Drawing.Point(340, 158);
+            this.ScanMIDIDev.Name = "ScanMIDIDev";
+            this.ScanMIDIDev.Size = new System.Drawing.Size(118, 23);
+            this.ScanMIDIDev.TabIndex = 22;
+            this.ScanMIDIDev.Text = "Rescan MIDI devices";
+            this.ScanMIDIDev.UseVisualStyleBackColor = true;
+            this.ScanMIDIDev.Click += new System.EventHandler(this.ScanMIDIDev_Click);
             // 
             // ForceSave
             // 
@@ -241,7 +253,6 @@
             // MIDIDevicesListIN
             // 
             this.MIDIDevicesListIN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.MIDIDevicesListIN.Enabled = false;
             this.MIDIDevicesListIN.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.MIDIDevicesListIN.FormattingEnabled = true;
             this.MIDIDevicesListIN.Items.AddRange(new object[] {
@@ -250,27 +261,27 @@
             this.MIDIDevicesListIN.Name = "MIDIDevicesListIN";
             this.MIDIDevicesListIN.Size = new System.Drawing.Size(232, 21);
             this.MIDIDevicesListIN.TabIndex = 14;
+            this.MIDIDevicesListIN.SelectedIndexChanged += new System.EventHandler(this.MIDIDevicesListIN_SelectedIndexChanged);
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Enabled = false;
             this.label25.Location = new System.Drawing.Point(15, 158);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(65, 13);
             this.label25.TabIndex = 13;
             this.label25.Text = "MIDI in port:";
             // 
-            // MIDIDevicesList
+            // MIDIDevicesListOUT
             // 
-            this.MIDIDevicesList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.MIDIDevicesList.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.MIDIDevicesList.FormattingEnabled = true;
-            this.MIDIDevicesList.Location = new System.Drawing.Point(86, 133);
-            this.MIDIDevicesList.Name = "MIDIDevicesList";
-            this.MIDIDevicesList.Size = new System.Drawing.Size(232, 21);
-            this.MIDIDevicesList.TabIndex = 12;
-            this.MIDIDevicesList.SelectedIndexChanged += new System.EventHandler(this.MIDIDevicesList_SelectedIndexChanged);
+            this.MIDIDevicesListOUT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.MIDIDevicesListOUT.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.MIDIDevicesListOUT.FormattingEnabled = true;
+            this.MIDIDevicesListOUT.Location = new System.Drawing.Point(86, 133);
+            this.MIDIDevicesListOUT.Name = "MIDIDevicesListOUT";
+            this.MIDIDevicesListOUT.Size = new System.Drawing.Size(232, 21);
+            this.MIDIDevicesListOUT.TabIndex = 12;
+            this.MIDIDevicesListOUT.SelectedIndexChanged += new System.EventHandler(this.MIDIDevicesList_SelectedIndexChanged);
             // 
             // label24
             // 
@@ -1101,7 +1112,7 @@
         private System.Windows.Forms.NumericUpDown AdvanceValue;
         private System.Windows.Forms.Button ImportXML;
         private System.Windows.Forms.Button ExportXML;
-        private System.Windows.Forms.ComboBox MIDIDevicesList;
+        private System.Windows.Forms.ComboBox MIDIDevicesListOUT;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.ComboBox MIDIDevicesListIN;
         private System.Windows.Forms.Label label25;
@@ -1117,6 +1128,7 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button RandomColorsButton;
         private System.Windows.Forms.Button ForceSave;
+        private System.Windows.Forms.Button ScanMIDIDev;
     }
 }
 

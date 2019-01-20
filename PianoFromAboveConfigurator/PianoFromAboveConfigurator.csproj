@@ -48,11 +48,6 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="MIDI\Interop\Constants.cs" />
-    <Compile Include="MIDI\Interop\Functions.cs" />
-    <Compile Include="MIDI\Interop\Structures.cs" />
-    <Compile Include="MIDI\NET\Devices\Collections.cs" />
-    <Compile Include="MIDI\NET\Devices\Output.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainWindow.resx">

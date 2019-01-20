@@ -74,6 +74,45 @@ namespace PianoFromAboveConfigurator
             public static XmlNode View;
         }
 
+        private void ScanForMIDIDevices()
+        {
+            MIDIDevicesListIN.Items.Clear();
+            int DeviceCountIN = WinMM.midiInGetNumDevs();
+            MIDIINCAPS CapsIN = new MIDIINCAPS();
+            if (DeviceCountIN > 0)
+            {
+                for (uint i = 0; i < WinMM.midiInGetNumDevs(); i++)
+                {
+                    WinMM.midiInGetDevCaps(i, out CapsIN, (uint)Marshal.SizeOf(CapsIN));
+                    MIDIDevicesListIN.Items.Add(CapsIN.szPname);
+                }
+            }
+            else
+            {
+                label25.Enabled = false;
+                MIDIDevicesListIN.Items.Add("None");
+                MIDIDevicesListIN.Enabled = false;
+            }
+
+            MIDIDevicesListOUT.Items.Clear();
+            int DeviceCountOUT = WinMM.midiOutGetNumDevs();
+            MIDIOUTCAPS CapsOUT = new MIDIOUTCAPS();
+            if (DeviceCountOUT > 0)
+            {
+                for (uint i = 0; i < WinMM.midiOutGetNumDevs(); i++)
+                {
+                    WinMM.midiOutGetDevCaps(i, out CapsOUT, (uint)Marshal.SizeOf(CapsOUT));
+                    MIDIDevicesListOUT.Items.Add(CapsOUT.szPname);
+                }
+            }
+            else
+            {
+                label24.Enabled = false;
+                MIDIDevicesListOUT.Items.Add("None");
+                MIDIDevicesListOUT.Enabled = false;
+            }
+        }
+
         private void LoadXMLIntoMemory()
         {
             try
@@ -118,17 +157,12 @@ namespace PianoFromAboveConfigurator
         {
             try
             {
-                // Load MIDI devices
-                MIDIDevicesList.Items.Clear();
-                MIDIDevicesListIN.Items.Clear();
-                foreach (PianoFromAboveConfigurator.MIDI.NET.Devices.Output midiDevice in PianoFromAboveConfigurator.MIDI.NET.Devices.Collections.Outputs)
-                {
-                    MIDIDevicesList.Items.Add(midiDevice.Name);
-                }
-                MIDIDevicesListIN.Items.Add("(Not implemented yet)");
-                try { MIDIDevicesList.Text = XMLDoc.Audio.Attributes["MIDIOutDevice"].Value; }
-                catch { MIDIDevicesList.Text = "Microsoft GS Wavetable Synth"; }
-                MIDIDevicesListIN.Text = "(Not implemented yet)";
+                // MIDI devices
+                try { MIDIDevicesListIN.Text = XMLDoc.Audio.Attributes["MIDIInDevice"].Value; }
+                catch { MIDIDevicesListIN.Text = "LoopBe Internal MIDI"; }
+                try { MIDIDevicesListOUT.Text = XMLDoc.Audio.Attributes["MIDIOutDevice"].Value; }
+                catch { MIDIDevicesListOUT.Text = "Microsoft GS Wavetable Synth"; }
+
                 // Piano keys stuff
                 if (XMLDoc.Visuals.Attributes["KeysShown"].Value == "0" && XMLDoc.Visuals.Attributes["FirstKey"].Value == "21" && XMLDoc.Visuals.Attributes["LastKey"].Value == "108")
                 {
@@ -201,25 +235,24 @@ namespace PianoFromAboveConfigurator
         {
             Process[] PFAx86 = Process.GetProcessesByName("PFA-1.1.0-x86");
             Process[] PFAx64 = Process.GetProcessesByName("PFA-1.1.0-x86_64");
-            if (PFAx86.Length != 0 || PFAx64.Length != 0)
+
+            Process[] PFAArray = new Process[PFAx86.Length + PFAx64.Length];
+            Array.Copy(PFAx86, PFAArray, PFAx86.Length);
+            Array.Copy(PFAx64, PFAArray, PFAx64.Length);
+
+            ScanForMIDIDevices();
+
+            if (PFAArray.Length != 0)
             {
                 DialogResult dialogResult = MessageBox.Show("Please close PFA before using this tool.\nDo you want to close it now?\n\nIf you click \"No\", the configurator will exit, and PFA will continue to run.", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    foreach (Process proc in Process.GetProcessesByName("PFA-1.1.0-x86"))
-                    {
+                    foreach (Process proc in PFAArray)
                         proc.Kill();
-                    }
-                    foreach (Process proc in Process.GetProcessesByName("PFA-1.1.0-x86_64"))
-                    {
-                        proc.Kill();
-                    }
                 }
-                else
-                {
-                    Environment.Exit(5);
-                }
+                else Environment.Exit(5);
             }
+
             LoadXMLIntoMemory();
             LoadValues();
         }
@@ -268,19 +301,20 @@ namespace PianoFromAboveConfigurator
             {
                 Process[] PFAx86 = Process.GetProcessesByName("PFA-1.1.0-x86");
                 Process[] PFAx64 = Process.GetProcessesByName("PFA-1.1.0-x86_64");
-                if (PFAx86.Length != 0 || PFAx64.Length != 0)
+
+                Process[] PFAArray = new Process[PFAx86.Length + PFAx64.Length];
+                Array.Copy(PFAx86, PFAArray, PFAx86.Length);
+                Array.Copy(PFAx64, PFAArray, PFAx64.Length);
+
+                if (PFAArray.Length != 0)
                 {
-                    foreach (Process proc in Process.GetProcessesByName("PFA-1.1.0-x86"))
-                    {
+                    foreach (Process proc in PFAArray)
                         proc.Kill();
-                    }
-                    foreach (Process proc in Process.GetProcessesByName("PFA-1.1.0-x86_64"))
-                    {
-                        proc.Kill();
-                    }
+
                     MessageBox.Show("You have to close the configurator before running Piano From Above.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                System.Threading.Thread.Sleep(1);
+
+                Thread.Sleep(1);
             }
             catch { }
         }
@@ -288,7 +322,7 @@ namespace PianoFromAboveConfigurator
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             XMLDoc.xml.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Piano From Above\\Config.xml"));
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             Application.ExitThread();
         }
 
@@ -627,13 +661,27 @@ namespace PianoFromAboveConfigurator
         {
             try
             {
-                XMLDoc.Audio.Attributes["MIDIOutDevice"].Value = MIDIDevicesList.Text;
+                XMLDoc.Audio.Attributes["MIDIOutDevice"].Value = MIDIDevicesListOUT.Text;
             }
             catch
             {
                 XmlDocument doc = XMLDoc.Audio.OwnerDocument;
                 XmlAttribute attr = doc.CreateAttribute("MIDIOutDevice");
-                attr.Value = MIDIDevicesList.Text;     
+                attr.Value = MIDIDevicesListOUT.Text;     
+                XMLDoc.Audio.Attributes.SetNamedItem(attr);
+            }
+        }
+
+        private void MIDIDevicesListIN_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            { XMLDoc.Audio.Attributes["MIDIInDevice"].Value = MIDIDevicesListIN.Text;
+            }
+            catch
+            {
+                XmlDocument doc = XMLDoc.Audio.OwnerDocument;
+                XmlAttribute attr = doc.CreateAttribute("MIDIInDevice");
+                attr.Value = MIDIDevicesListOUT.Text;
                 XMLDoc.Audio.Attributes.SetNamedItem(attr);
             }
         }
@@ -733,5 +781,63 @@ namespace PianoFromAboveConfigurator
             C16.BackColor = Palette;
             RandomColorsSave(RGBPalette[0], RGBPalette[1], RGBPalette[2], 16);
         }
+
+        private void ScanMIDIDev_Click(object sender, EventArgs e)
+        {
+            ScanForMIDIDevices();
+            try { MIDIDevicesListIN.Text = XMLDoc.Audio.Attributes["MIDIInDevice"].Value; }
+            catch { MIDIDevicesListIN.Text = "LoopBe Internal MIDI"; }
+            try { MIDIDevicesListOUT.Text = XMLDoc.Audio.Attributes["MIDIOutDevice"].Value; }
+            catch { MIDIDevicesListOUT.Text = "Microsoft GS Wavetable Synth"; }
+        }
+    }
+
+    internal static class WinMM
+    {
+        internal const int MMSYSERR_NOERROR = 0;
+
+        [DllImport("winmm.dll")]
+        internal static extern int midiInGetNumDevs();
+
+        [DllImport("winmm.dll")]
+        internal static extern int midiOutGetNumDevs();
+
+        [DllImport("winmm.dll")]
+        internal static extern int midiInGetDevCaps(
+            uint uDeviceID,
+            out MIDIINCAPS caps,
+            uint cbMidiInCaps);
+
+        [DllImport("winmm.dll")]
+        internal static extern int midiOutGetDevCaps(
+            uint uDeviceID,
+            out MIDIOUTCAPS caps,
+            uint cbMidiOutCaps);
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MIDIINCAPS
+    {
+        public ushort wMid;
+        public ushort wPid;
+        public uint vDriverVersion;     // MMVERSION
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public string szPname;
+        public uint dwSupport;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct MIDIOUTCAPS
+    {
+        public ushort wMid;
+        public ushort wPid;
+        public uint vDriverVersion;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public string szPname;
+        public ushort wTechnology;
+        public ushort wVoices;
+        public ushort wNotes;
+        public ushort wChannelMask;
+        public uint dwSupport;
     }
 }
